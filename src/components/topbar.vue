@@ -7,7 +7,9 @@
          <el-button round>登录</el-button>
   <el-button type="primary" round>注册</el-button>
       </div>
+     
   </div>
+  
 </template>
 <style lang="scss">
 #topbar{
@@ -18,3 +20,7 @@
    align-items: center;
 }
 </style>
+<script>
+    
+
+</script>
