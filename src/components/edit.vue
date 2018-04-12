@@ -40,13 +40,53 @@
       </ol>
     </nav>
     <ol>
-      <li v-bind:class="{active:currentTab === 0}">1</li>
-      <li v-bind:class="{active:currentTab === 1}">2</li>
-      <li v-bind:class="{active:currentTab === 2}">3</li>
-      <li v-bind:class="{active:currentTab === 3}">4</li>
-      <li v-bind:class="{active:currentTab === 4}">5</li>
-      <li v-bind:class="{active:currentTab === 5}">6</li>
-      <li v-bind:class="{active:currentTab === 6}">7</li>
+      <li v-bind:class="{active:currentTab === 0}">
+        <h2>个人信息</h2>
+        <el-form>
+          <el-form-item label="姓名">
+            <el-input v-model="profile.name"></el-input>
+          </el-form-item>
+          <el-form-item label="年龄">
+            <el-input v-model="profile.age"></el-input>
+          </el-form-item>
+          <el-form-item label="学校">
+            <el-input v-model="profile.school"></el-input>
+          </el-form-item>
+          <el-form-item label="城市">
+            <el-input v-model="profile.city"></el-input>
+          </el-form-item>
+        </el-form>
+      </li>
+      <li v-bind:class="{active:currentTab === 1}">
+        <h2>工作经历</h2>
+        <el-form>
+          <div v-for="(work,index) in workHistory">
+            <el-form-item label="公司名称">
+              <el-input v-model="work.company"></el-input>
+            </el-form-item>
+            <el-form-item label="工作内容">
+              <el-input v-model="work.workContent"></el-input>
+            </el-form-item>
+            <el-button type="danger" icon="el-icon-delete" circle size="small" v-on:click="removeWork(index)"></el-button>
+          </div>
+        </el-form>
+        <el-button type="primary" round v-on:click="addCompany">增加</el-button>
+
+      </li>
+      <li v-bind:class="{active:currentTab === 2}">
+        <h2>学习经历</h2>
+      </li>
+      <li v-bind:class="{active:currentTab === 3}">
+        <h2>项目经验</h2>
+      </li>
+      <li v-bind:class="{active:currentTab === 4}">
+        <h2>
+          奖项
+        </h2>
+      </li>
+      <li v-bind:class="{active:currentTab === 5}">
+        <h2>联系方式</h2>
+      </li>
     </ol>
   </div>
 </template>
@@ -54,8 +94,32 @@
   export default {
     data() {
       return {
-        currentTab: 4,
-        icons: ["shenfenzheng", "work", "book", "heart", "goldcup", "phone"]
+        currentTab: 0,
+        icons: ["shenfenzheng", "work", "book", "heart", "goldcup", "phone"],
+        profile: {
+          name: "",
+          age: "",
+          school: "",
+          city: "",
+        },
+        workHistory: [{
+          company: '',
+          workContent: ''
+        }]
+      }
+    },
+    methods: {
+      addCompany() {
+        this.workHistory.push({
+          company: '',
+          workContent: ''
+        })
+      },
+      removeWork(index) {
+        if (index > 0) {
+          this.workHistory.splice(index, 1)
+        }
+
       }
     }
   }
@@ -72,6 +136,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+
         >li {
           cursor: pointer;
           display: flex;
@@ -80,6 +145,7 @@
           width: 100%;
           align-items: center;
           justify-content: center;
+
           >.icon {
             width: 24px;
             height: 24px;
@@ -96,10 +162,23 @@
 
     }
     >ol {
+      overflow: auto;
+      flex: 1;
+      position: relative;
       >li {
+        padding: 32px;
         display: none;
         &.active {
           display: block;
+        }
+        .el-form>div {
+          position: relative;
+          .el-button--danger {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 16px;
+          }
         }
       }
     }
